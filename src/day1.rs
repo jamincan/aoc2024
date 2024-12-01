@@ -3,14 +3,12 @@ use fxhash::FxHashMap;
 
 #[aoc_generator(day1)]
 pub fn parse_input(input: &str) -> (Vec<i32>, Vec<i32>) {
-    let mut left = vec![];
-    let mut right = vec![];
-    for line in input.lines() {
+    input.lines().map(|line| {
         let mut ids = line.split_whitespace();
-        left.push(ids.next().and_then(|id| str::parse(id).ok()).expect("first id should be an integer"));
-        right.push(ids.next().and_then(|id| str::parse(id).ok()).expect("second id should be an integer"));
-    }
-    (left, right)
+        let left: i32 = ids.next().and_then(|id| str::parse(id).ok()).expect("first id should be an integer");
+        let right: i32 = ids.next().and_then(|id| str::parse(id).ok()).expect("second id should be an integer");
+        (left, right)
+    }).unzip()
 }
 
 #[aoc(day1, part1)]
