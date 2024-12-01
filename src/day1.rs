@@ -13,20 +13,19 @@ pub fn parse_input(input: &str) -> (Vec<i32>, Vec<i32>) {
 
 #[aoc(day1, part1)]
 pub fn solve_part1(input: &(Vec<i32>, Vec<i32>)) -> u32 {
-    let mut left = input.0.clone();
-    let mut right = input.1.clone();
+    let (mut left, mut right) = input.clone();
     left.sort_unstable();
     right.sort_unstable();
     left.iter().zip(right).map(|(l, r)| l.abs_diff(r)).sum()
 }
 
 #[aoc(day1, part2)]
-pub fn solve_part2(input: &(Vec<i32>, Vec<i32>)) -> i32 {
-    let mut right = FxHashMap::default();
-    for id in input.1.iter() {
-        right.entry(id).and_modify(|count| *count += 1).or_insert(1);
+pub fn solve_part2((left, right): &(Vec<i32>, Vec<i32>)) -> i32 {
+    let mut right_map = FxHashMap::default();
+    for id in right.iter() {
+        *right_map.entry(id).or_default() += 1;
     }
-    input.0.iter().map(|id| id * right.get(id).unwrap_or(&0)).sum()
+    left.iter().map(|id| id * right_map.get(id).unwrap_or(&0)).sum()
 }
 
 #[cfg(test)]
