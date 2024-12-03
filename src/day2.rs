@@ -12,7 +12,7 @@ impl std::str::FromStr for Report {
     fn from_str(input: &str) -> Result<Self, Self::Err> {
         let values = input.split_whitespace();
         let levels = values.map(str::parse).collect::<Result<_, _>>()?;
-        return Ok(Report { levels });
+        Ok(Report { levels })
     }
 }
 
@@ -27,7 +27,7 @@ pub fn solve_part1(reports: &[Report]) -> usize {
         .iter()
         .filter(|report| is_safe(&report.levels))
         .count();
-    return safe_count;
+    safe_count
 }
 
 fn is_safe<'i, T: IntoIterator<Item = &'i i32>>(levels: T) -> bool {
@@ -39,7 +39,7 @@ fn is_safe<'i, T: IntoIterator<Item = &'i i32>>(levels: T) -> bool {
     let is_increasing = second > first;
     levels_iter.all(|(first, second)| {
         let diff = second.abs_diff(*first);
-        diff >= 1 && diff <= 3 && (second > first) == is_increasing
+        (1..=3).contains(&diff) && (second > first) == is_increasing
     })
 }
 
@@ -49,7 +49,7 @@ pub fn solve_part2(reports: &[Report]) -> usize {
         .iter()
         .filter(|report| dampened_is_safe(&report.levels))
         .count();
-    return safe_count;
+    safe_count
 }
 
 fn dampened_is_safe(levels: &[i32]) -> bool {

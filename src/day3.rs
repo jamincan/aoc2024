@@ -22,7 +22,7 @@ fn parse_mul(input: &str) -> Option<(i32, i32, &str)> {
 #[aoc_generator(day3)]
 pub fn parse_input(mut input: &str) -> Vec<Instruction> {
     let mut instructions = Vec::new();
-    while input.len() > 0 {
+    while !input.is_empty() {
         if input.starts_with("do()") {
             instructions.push(Instruction::Do);
             input = &input[4..];
