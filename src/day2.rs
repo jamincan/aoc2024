@@ -2,7 +2,7 @@ use anyhow::Result;
 use aoc_runner_derive::{aoc, aoc_generator};
 
 #[derive(Debug, PartialEq, Eq)]
-pub struct Report {
+struct Report {
     levels: Vec<i32>,
 }
 
@@ -17,12 +17,12 @@ impl std::str::FromStr for Report {
 }
 
 #[aoc_generator(day2)]
-pub fn parse_input(input: &str) -> Result<Vec<Report>> {
+fn parse_input(input: &str) -> Result<Vec<Report>> {
     input.trim().lines().map(str::parse).collect()
 }
 
 #[aoc(day2, part1)]
-pub fn solve_part1(reports: &[Report]) -> usize {
+fn solve_part1(reports: &[Report]) -> usize {
     let safe_count = reports
         .iter()
         .filter(|report| is_safe(&report.levels))
@@ -44,7 +44,7 @@ fn is_safe<'i, T: IntoIterator<Item = &'i i32>>(levels: T) -> bool {
 }
 
 #[aoc(day2, part2)]
-pub fn solve_part2(reports: &[Report]) -> usize {
+fn solve_part2(reports: &[Report]) -> usize {
     let safe_count = reports
         .iter()
         .filter(|report| dampened_is_safe(&report.levels))

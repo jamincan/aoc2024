@@ -1,3 +1,5 @@
+#![warn(clippy::pedantic)]
+
 use aoc_runner_derive::aoc_lib;
 
 pub mod day1;

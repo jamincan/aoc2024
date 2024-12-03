@@ -1,7 +1,7 @@
 use aoc_runner_derive::{aoc, aoc_generator};
 
 #[derive(Debug, PartialEq, Eq)]
-pub enum Instruction {
+enum Instruction {
     Mul(i32, i32),
     Do,
     Dont,
@@ -20,7 +20,7 @@ fn parse_mul(input: &str) -> Option<(i32, i32, &str)> {
 }
 
 #[aoc_generator(day3)]
-pub fn parse_input(mut input: &str) -> Vec<Instruction> {
+fn parse_input(mut input: &str) -> Vec<Instruction> {
     let mut instructions = Vec::new();
     while !input.is_empty() {
         if input.starts_with("do()") {
@@ -43,7 +43,7 @@ pub fn parse_input(mut input: &str) -> Vec<Instruction> {
 }
 
 #[aoc(day3, part1)]
-pub fn solve_part1(instructions: &[Instruction]) -> i32 {
+fn solve_part1(instructions: &[Instruction]) -> i32 {
     instructions
         .iter()
         .filter_map(|instruction| match instruction {
@@ -54,7 +54,7 @@ pub fn solve_part1(instructions: &[Instruction]) -> i32 {
 }
 
 #[aoc(day3, part2)]
-pub fn solve_part2(instructions: &[Instruction]) -> i32 {
+fn solve_part2(instructions: &[Instruction]) -> i32 {
     let mut do_multiply = true;
     instructions
         .iter()
@@ -63,7 +63,7 @@ pub fn solve_part2(instructions: &[Instruction]) -> i32 {
                 Instruction::Mul(x, y) if do_multiply => return Some(x * y),
                 Instruction::Do => do_multiply = true,
                 Instruction::Dont => do_multiply = false,
-                _ => (),
+                Instruction::Mul(..) => (),
             };
             None
         })
