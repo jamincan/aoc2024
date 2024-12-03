@@ -46,12 +46,9 @@ pub fn parse_input(mut input: &str) -> Vec<Instruction> {
 pub fn solve_part1(instructions: &[Instruction]) -> i32 {
     instructions
         .iter()
-        .filter_map(|instruction| {
-            if let Instruction::Mul(x, y) = instruction {
-                Some(x * y)
-            } else {
-                None
-            }
+        .filter_map(|instruction| match instruction {
+            Instruction::Mul(x, y) => Some(x * y),
+            _ => None,
         })
         .sum()
 }
@@ -62,19 +59,13 @@ pub fn solve_part2(instructions: &[Instruction]) -> i32 {
     instructions
         .iter()
         .filter_map(|instruction| {
-            use Instruction::*;
             match instruction {
-                Mul(x, y) if do_multiply => Some(x * y),
-                Do => {
-                    do_multiply = true;
-                    None
-                }
-                Dont => {
-                    do_multiply = false;
-                    None
-                }
-                _ => None,
-            }
+                Instruction::Mul(x, y) if do_multiply => return Some(x * y),
+                Instruction::Do => do_multiply = true,
+                Instruction::Dont => do_multiply = false,
+                _ => (),
+            };
+            None
         })
         .sum()
 }
